@@ -1,8 +1,9 @@
 import { FeedbackItem, RatingList } from './Rating.styled';
+import PropTypes from 'prop-types';
 
 export const Rating = ({
   ratingList,
-  currentRaring,
+  currentRating,
   total,
   positivePercentage,
 }) => {
@@ -12,7 +13,7 @@ export const Rating = ({
         return (
           <FeedbackItem key={ratingName}>
             <span>{ratingName}: </span>
-            <span>{currentRaring[ratingName]}</span>
+            <span>{currentRating[ratingName]}</span>
           </FeedbackItem>
         );
       })}
@@ -25,4 +26,15 @@ export const Rating = ({
       </FeedbackItem>
     </RatingList>
   );
+};
+
+Rating.propTypes = {
+  ratingList: PropTypes.arrayOf(PropTypes.string),
+  currentRating: PropTypes.shape({
+    Good: PropTypes.number.isRequired,
+    Neutral: PropTypes.number.isRequired,
+    Bad: PropTypes.number.isRequired,
+  }).isRequired,
+  total: PropTypes.number.isRequired,
+  positivePercentage: PropTypes.number.isRequired,
 };

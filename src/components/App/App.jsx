@@ -23,22 +23,22 @@ export class App extends Component {
   };
 
   countTotalRating = () => {
-    const currentRaring = this.state;
+    const currentRating = this.state;
 
     let total = 0;
 
-    for (const rating in currentRaring) {
-      total += currentRaring[rating];
+    for (const rating in currentRating) {
+      total += currentRating[rating];
     }
 
     return total;
   };
 
   countPositiveFeedback = () => {
-    const currentRaring = this.state;
+    const currentRating = this.state;
 
     const total = this.countTotalRating();
-    const goodRating = currentRaring['Good'];
+    const goodRating = currentRating['Good'];
 
     if (total === 0) {
       return 0;
@@ -67,7 +67,7 @@ export class App extends Component {
           ) : (
             <Rating
               ratingList={ratingList}
-              currentRaring={this.state}
+              currentRating={this.state}
               total={total}
               positivePercentage={goodRating}
             />
