@@ -5,13 +5,11 @@ import { Rating } from 'components/Rating/Rating';
 import { Section } from 'components/Section/Section';
 import { Notification } from 'components/Notification/Notification';
 
-const ratingList = ['Good', 'Neutral', 'Bad'];
-
 export class App extends Component {
   state = {
-    Good: 0,
-    Neutral: 0,
-    Bad: 0,
+    good: 0,
+    neutral: 0,
+    bad: 0,
   };
 
   handleClick = ratingName => {
@@ -23,30 +21,24 @@ export class App extends Component {
   };
 
   countTotalRating = () => {
-    const currentRating = this.state;
-
-    let total = 0;
-
-    for (const rating in currentRating) {
-      total += currentRating[rating];
-    }
-
-    return total;
+    return Object.values(this.state).reduce(
+      (total, value) => (total += value),
+      0
+    );
   };
 
   countPositiveFeedback = () => {
-    const currentRating = this.state;
+    const { good } = this.state;
 
     const total = this.countTotalRating();
-    const goodRating = currentRating['Good'];
 
     if (total === 0) {
       return 0;
     }
 
-    const goodPercentage = (goodRating / total) * 100;
+    const goodPercentage = ((good / total) * 100).toFixed();
 
-    return goodPercentage.toFixed();
+    return Number(goodPercentage);
   };
 
   render() {
@@ -57,7 +49,7 @@ export class App extends Component {
       <Container>
         <Section titleText="Please leave feedback">
           <FeedbackBtnList
-            ratingList={ratingList}
+            ratingList={Object.keys(this.state)}
             onLeaveFeedback={this.handleClick}
           />
         </Section>
@@ -66,7 +58,7 @@ export class App extends Component {
             <Notification message="There is no feedback" />
           ) : (
             <Rating
-              ratingList={ratingList}
+              ratingList={Object.keys(this.state)}
               currentRating={this.state}
               total={total}
               positivePercentage={goodRating}
